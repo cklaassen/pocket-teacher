@@ -5,10 +5,18 @@
     <title>PocketTeacher</title>
     <link rel="stylesheet" href="home.css">
 </head>
-<body>
+<body onload="init()">
+    <div id="menu">
+        <button id="close">X</button>
+    </div>
     <input id="search" type="text" placeholder="Search..">
-    <button id="search-button">Search</button>
+    <button id="search-button" onclick="submit()">Search</button>
+    <div id="item-store">
 
+    </div>
+
+    <script src="database_load.js"></script>
     <script src="../functions/load.js"></script>
+    <script src="../functions/init.js"></script>
 </body>
 </html>

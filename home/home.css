@@ -27,3 +27,28 @@
 body {
     background-color: #DBF5FA;
 }
+
+#close {
+    position: fixed;
+    background-color: #DBF5FA;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    color: white;
+    right: 6px;
+    top: 6px;
+}
+
+.video-holder {
+    background-color: white;
+    height: 160px;
+}
+
+.video-title {
+    padding-right: 5px;
+    padding-top: 1%;
+}
+
+#nothing {
+    text-align: center;
+}
