@@ -50,12 +50,14 @@ async function init() {
                     xhr.onload = function(event) {
                         var blob = xhr.response;
                         console.log(blob)
-                        FileSaver.saveAs(blob, "test.MOV");
+                        FileSaver.saveAs(blob,
+                            "test.mp4");
                     };
                     xhr.open('GET', url);
                     xhr.send();
                 })
             });
+
             let p = document.createElement("p");
             p.innerHTML = data[0];
             p.classList.add("video-title");
@@ -97,6 +99,22 @@ async function submit() {
             div.setAttribute("id", i.toString(10))
             div.addEventListener('click', function (event) {
                 const url = document.getElementsByClassName("video-storage")[event.currentTarget.id].innerHTML
+
+                var storageRef = firebase.storage().refFromURL(url);
+
+                storageRef.getDownloadURL().then(function(url) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob';
+                    xhr.onload = function(event) {
+                        var blob = xhr.response;
+                        console.log(blob)
+                        FileSaver.saveAs(blob,
+                            document.getElementsByClassName("video-title")[event.currentTarget.id]
+                                .innerHTML + ".mp4");
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                })
             });
             let p = document.createElement("p");
             p.innerHTML = data[0];

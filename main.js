@@ -25,9 +25,9 @@ async function createWindow () {
         icon:'assets/logo.png'
     })
     win.loadFile('load/index.html')
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
     await sleep(3000)
-    win.loadFile('home/home_offline.html')
+    win.loadFile('blank.html')
 }
 
 app.whenReady().then(createWindow)
@@ -44,13 +44,15 @@ app.on('activate', () => {
     }
 })
 
-let currentStatus = "online";
+let statusUpdate = ""
 
 ipcMain.on('online-status-changed', (event, status) => {
-    if (status === "online" && status !== currentStatus) {
+    console.log(status)
+    if (status === "online" && statusUpdate !== "online") {
+        win.loadFile('home/home_online.html')
+        statusUpdate = "online"
+    } else if (status === "offline" && statusUpdate !== "offline") {
         win.loadFile('home/home_offline.html')
-        currentStatus = "online";
-    } else if (status === "offline" && status !== currentStatus) {
-        currentStatus = "online";
+        statusUpdate = "offline"
     }
 })
