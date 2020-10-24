@@ -24,10 +24,10 @@ async function createWindow () {
         },
         icon:'assets/logo.png'
     })
-    win.loadFile('Load/index.html')
-    // win.webContents.openDevTools()
-    await sleep(3000)
-    win.loadFile('Home/home_online.html')
+    // win.loadFile('load/index.html')
+    // // win.webContents.openDevTools()
+    // await sleep(3000)
+    win.loadFile('home/home_online.html')
 }
 
 app.whenReady().then(createWindow)
