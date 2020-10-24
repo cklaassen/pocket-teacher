@@ -1,4 +1,5 @@
 const { app } = require('electron')
+var FileSaver = require('file-saver');
 
 var firebase = require("firebase/app");
 require("firebase/firestore");
@@ -43,12 +44,13 @@ async function init() {
 
                 var storageRef = firebase.storage().refFromURL(url);
 
-
                 storageRef.getDownloadURL().then(function(url) {
                     var xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = function(event) {
                         var blob = xhr.response;
+                        console.log(blob)
+                        FileSaver.saveAs(blob, "test.MOV");
                     };
                     xhr.open('GET', url);
                     xhr.send();

@@ -14,7 +14,7 @@ async function createWindow () {
     // win.maximize();
     // win.show();
 
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 400,
         frame: false,
@@ -25,9 +25,9 @@ async function createWindow () {
         icon:'assets/logo.png'
     })
     win.loadFile('load/index.html')
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
     await sleep(3000)
-    win.loadFile('home/home_online.html')
+    win.loadFile('home/home_offline.html')
 }
 
 app.whenReady().then(createWindow)
@@ -44,10 +44,13 @@ app.on('activate', () => {
     }
 })
 
+let currentStatus = "online";
+
 ipcMain.on('online-status-changed', (event, status) => {
-    if (status === "online") {
-        console.log("Go U");
-    } else if (status === "offline") {
-        console.log("That is an oof");
+    if (status === "online" && status !== currentStatus) {
+        win.loadFile('home/home_offline.html')
+        currentStatus = "online";
+    } else if (status === "offline" && status !== currentStatus) {
+        currentStatus = "online";
     }
 })
