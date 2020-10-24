@@ -26,7 +26,7 @@ async function createWindow () {
     })
     win.loadFile('load/index.html')
     win.webContents.openDevTools()
-    await sleep(500)
+    await sleep(3000)
     win.loadFile('home/home_online.html')
 }
 

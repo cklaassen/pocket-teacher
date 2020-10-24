@@ -1,3 +1,5 @@
+const { app} = require('electron')
+
 var firebase = require("firebase/app");
 require("firebase/firestore");
 
@@ -16,27 +18,39 @@ const db = firebase.firestore();
 
 const dataHolder = [];
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function init() {
-    const docRef = document.getElementById("item-store");
-    const videoStorageRef = db.collection('Data').doc('Videos');
-    const doc = await videoStorageRef.get();
-    console.log('Document data:', doc.data());
-    let i  = 0;
-    let data = doc.data()[i]
-    let holder = document.createElement("div")
-    holder.setAttribute("id", "holder");
-    while (data != null) {
-        dataHolder.push(data);
-        let div = document.createElement("div");
-        div.classList.add("video-holder");
-        let p = document.createElement("p");
-        p.innerHTML = data[0];
-        p.classList.add("video-title");
-        div.appendChild(p)
-        holder.appendChild(div);
-        data = doc.data()[++i]
+    while (true) {
+        const docRef = document.getElementById("item-store");
+        const videoStorageRef = db.collection('Data').doc('Videos');
+        const doc = await videoStorageRef.get();
+        console.log('Document data:', doc.data());
+        let i = 0;
+        let data = doc.data()[i]
+        let holder = document.createElement("div")
+        holder.setAttribute("id", "holder");
+        while (data != null) {
+            dataHolder.push(data);
+            let div = document.createElement("div");
+            div.classList.add("video-holder");
+            let p = document.createElement("p");
+            p.innerHTML = data[0];
+            p.classList.add("video-title");
+            div.appendChild(p)
+            let creator = document.createElement("p");
+            creator.innerHTML = data[2];
+            creator.classList.add("video-creator");
+            div.appendChild(creator);
+            holder.appendChild(div);
+            data = doc.data()[++i]
+        }
+        docRef.appendChild(holder);
+        console.log(app.getPath("userData"))
+        await sleep(60000);
     }
-    docRef.appendChild(holder);
 }
 
 async function submit() {
@@ -61,6 +75,10 @@ async function submit() {
             p.innerHTML = data[0];
             p.classList.add("video-title");
             div.appendChild(p)
+            let creator = document.createElement("p");
+            creator.innerHTML = data[2];
+            creator.classList.add("video-creator");
+            div.appendChild(creator);
             holder.appendChild(div);
             count++;
         }
