@@ -66,6 +66,10 @@ async function init() {
             creator.innerHTML = data[2];
             creator.classList.add("video-creator");
             div.appendChild(creator);
+            let desc = document.createElement("p");
+            desc.innerHTML = data[3];
+            desc.classList.add("video-desc");
+            div.appendChild(desc);
             let storage = document.createElement("p");
             storage.innerHTML = data[1];
             storage.classList.add("video-storage");
