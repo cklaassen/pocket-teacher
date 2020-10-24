@@ -1,7 +1,8 @@
-const { app} = require('electron')
+const { app } = require('electron')
 
 var firebase = require("firebase/app");
 require("firebase/firestore");
+require("firebase/storage")
 
 var firebaseConfig = {
     apiKey: "AIzaSyDL_Cq7MhVxAQFZdtq5RswVTMaLo4_L2kQ",
@@ -35,7 +36,24 @@ async function init() {
         while (data != null) {
             dataHolder.push(data);
             let div = document.createElement("div");
+            div.setAttribute("id", i.toString(10))
             div.classList.add("video-holder");
+            div.addEventListener('click', function (event) {
+                const url = document.getElementsByClassName("video-storage")[event.currentTarget.id].innerHTML
+
+                var storageRef = firebase.storage().refFromURL(url);
+
+
+                storageRef.getDownloadURL().then(function(url) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob';
+                    xhr.onload = function(event) {
+                        var blob = xhr.response;
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                })
+            });
             let p = document.createElement("p");
             p.innerHTML = data[0];
             p.classList.add("video-title");
@@ -44,11 +62,14 @@ async function init() {
             creator.innerHTML = data[2];
             creator.classList.add("video-creator");
             div.appendChild(creator);
+            let storage = document.createElement("p");
+            storage.innerHTML = data[1];
+            storage.classList.add("video-storage");
+            div.appendChild(storage);
             holder.appendChild(div);
             data = doc.data()[++i]
         }
         docRef.appendChild(holder);
-        console.log(app.getPath("userData"))
         await sleep(60000);
     }
 }
@@ -71,6 +92,10 @@ async function submit() {
         if (data[0].toLowerCase().includes(result.toLowerCase())) {
             let div = document.createElement("div");
             div.classList.add("video-holder");
+            div.setAttribute("id", i.toString(10))
+            div.addEventListener('click', function (event) {
+                const url = document.getElementsByClassName("video-storage")[event.currentTarget.id].innerHTML
+            });
             let p = document.createElement("p");
             p.innerHTML = data[0];
             p.classList.add("video-title");
@@ -79,6 +104,10 @@ async function submit() {
             creator.innerHTML = data[2];
             creator.classList.add("video-creator");
             div.appendChild(creator);
+            let storage = document.createElement("p");
+            storage.innerHTML = data[1];
+            storage.classList.add("video-storage");
+            div.appendChild(storage);
             holder.appendChild(div);
             count++;
         }
