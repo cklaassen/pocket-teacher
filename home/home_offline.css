@@ -60,3 +60,14 @@ body {
 #title {
     text-align: center;
 }
+
+#video {
+    position: absolute;
+    max-width: 700px;
+    max-height: 400px;
+    top: 0;
+    z-index: 2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

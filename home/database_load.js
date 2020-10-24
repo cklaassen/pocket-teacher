@@ -18,7 +18,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const dataHolder = [];
+let dataHolder = [];
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -45,13 +45,13 @@ async function init() {
                 var storageRef = firebase.storage().refFromURL(url);
 
                 storageRef.getDownloadURL().then(function(url) {
+                    let title = url.split("?")[0].split("/").pop()
                     var xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = function(event) {
                         var blob = xhr.response;
                         console.log(blob)
-                        FileSaver.saveAs(blob,
-                            "test.mp4");
+                        FileSaver.saveAs(blob, title);
                     };
                     xhr.open('GET', url);
                     xhr.send();
@@ -103,14 +103,14 @@ async function submit() {
                 var storageRef = firebase.storage().refFromURL(url);
 
                 storageRef.getDownloadURL().then(function(url) {
+                    let title = url.split("?")[0].split("/").pop()
                     var xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = function(event) {
                         var blob = xhr.response;
                         console.log(blob)
                         FileSaver.saveAs(blob,
-                            document.getElementsByClassName("video-title")[event.currentTarget.id]
-                                .innerHTML + ".mp4");
+                            title);
                     };
                     xhr.open('GET', url);
                     xhr.send();
