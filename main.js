@@ -21,10 +21,11 @@ async function createWindow () {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-            // devTools: false
+            devTools: false
         },
         icon:'assets/logo.png'
     })
+    win.maximize()
     win.loadFile('load/index.html')
     win.webContents.openDevTools()
     await sleep(3000)
