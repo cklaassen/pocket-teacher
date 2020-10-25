@@ -20,12 +20,7 @@ const db = firebase.firestore();
 
 let dataHolder = [];
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 async function init() {
-    while (true) {
         const docRef = document.getElementById("item-store");
         const videoStorageRef = db.collection('Data').doc('Videos');
         const doc = await videoStorageRef.get();
@@ -87,11 +82,9 @@ async function init() {
             data = doc.data()[++i]
         }
         docRef.appendChild(holder);
-        await sleep(60000);
-    }
 }
 
-async function submit() {
+function submit() {
     console.log(dataHolder);
     console.log("ran");
 

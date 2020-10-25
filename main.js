@@ -21,13 +21,14 @@ async function createWindow () {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-            devTools: false
+            webSecurity: false
+            // devTools: false
         },
         icon:'assets/logo.png'
     })
     win.maximize()
     win.loadFile('load/index.html')
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
     await sleep(3000)
     win.loadFile('blank.html')
 }
@@ -49,12 +50,17 @@ app.on('activate', () => {
 let statusUpdate = ""
 
 ipcMain.on('online-status-changed', (event, status) => {
-    console.log(status)
-    console.log(statusUpdate)
-    if (status === "online" && statusUpdate !== "online") {
-        win.loadFile('home/home_online.html')
-        statusUpdate = "online"
-    } else if (status === "offline" && statusUpdate !== "offline") {
+    try {
+        console.log(status)
+        console.log(statusUpdate)
+        if (status === "online" && statusUpdate !== "online") {
+            win.loadFile('home/home_online.html')
+            statusUpdate = "online"
+        } else if (status === "offline" && statusUpdate !== "offline") {
+            win.loadFile('home/home_offline.html')
+            statusUpdate = "offline"
+        }
+    } catch (e) {
         win.loadFile('home/home_offline.html')
         statusUpdate = "offline"
     }
