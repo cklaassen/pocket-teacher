@@ -24,7 +24,9 @@ async function createWindow () {
             webSecurity: false
             // devTools: false
         },
-        icon:'assets/logo.png'
+        icon:'assets/logo.png',
+        x: 0,
+        y: 0
     })
     win.maximize()
     win.loadFile('load/index.html')
