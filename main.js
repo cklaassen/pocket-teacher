@@ -19,6 +19,7 @@ async function createWindow () {
         height: 400,
         frame: false,
         webPreferences: {
+            frame:false,
             nodeIntegration: true,
             enableRemoteModule: true,
             webSecurity: false
@@ -28,6 +29,10 @@ async function createWindow () {
         x: 0,
         y: 0
     })
+    win.webContents.on('crashed', (e) => {
+        app.relaunch();
+        app.quit()
+    });
     win.maximize()
     win.loadFile('load/index.html')
     // win.webContents.openDevTools()
