@@ -20,7 +20,8 @@ async function createWindow () {
         frame: false,
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            // devTools: false
         },
         icon:'assets/logo.png'
     })
@@ -48,6 +49,7 @@ let statusUpdate = ""
 
 ipcMain.on('online-status-changed', (event, status) => {
     console.log(status)
+    console.log(statusUpdate)
     if (status === "online" && statusUpdate !== "online") {
         win.loadFile('home/home_online.html')
         statusUpdate = "online"

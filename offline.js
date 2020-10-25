@@ -4,33 +4,38 @@ const ref = document.getElementById("video-drop")
 const rem = document.createElement("removable")
 let i = 0;
 fs.readdirSync('assets/videos').forEach(element => {
-    let div = document.createElement("div")
-    div.classList.add("video-holder")
-    div.setAttribute("id", i.toString(10))
-    i++;
-    div.addEventListener('click', function (event) {
-        const name = document.getElementsByClassName("video-title")[event.currentTarget.id].innerHTML
-        console.log(name);
+    if (element.split(".").pop() === "txt") {
+        fs.readFile("../assets/videos/" + element, 'utf-8', (err, data) => {
+            if (err) throw err;
 
-        var x = document.createElement("VIDEO");
-        x.setAttribute("src", "../assets/videos/" + name + ".mp4");
-        x.setAttribute("controls", "controls");
-        x.setAttribute("id", "video")
-        document.body.appendChild(x);
-        document.getElementById("hide").style.visibility = "hidden";
+            // Converting Raw Buffer to text
+            // data using tostring function.
+            console.log(data);
+        })
+    } else {
+        let div = document.createElement("div")
+        div.classList.add("video-holder")
+        div.setAttribute("id", i.toString(10))
+        i++;
+        div.addEventListener('click', function (event) {
+            const name = document.getElementsByClassName("video-title")[event.currentTarget.id].innerHTML
+            console.log(name);
 
-        var p = document.createElement("button");
-        p.setAttribute("id", "back");
-        p.innerHTML = "&#x2190;";
-        document.body.appendChild(p)
-        document.getElementById("back").addEventListener("click", reset);
+            var x = document.createElement("VIDEO");
+            x.setAttribute("src", "../assets/videos/" + name + ".mp4");
+            x.setAttribute("controls", "controls");
+            x.setAttribute("id", "video")
+            document.body.appendChild(x);
+            document.getElementById("hide").style.visibility = "hidden";
 
-    });
-    let p = document.createElement("p")
-    p.innerHTML = element.split(".")[0];
-    p.classList.add("video-title")
-    div.appendChild(p)
-    rem.appendChild(div)
+            var p = document.createElement("button");
+            p.setAttribute("id", "back");
+            p.innerHTML = "&#x2190;";
+            document.body.appendChild(p)
+            document.getElementById("back").addEventListener("click", reset);
+
+        });
+    }
 })
 
 ref.appendChild(rem);

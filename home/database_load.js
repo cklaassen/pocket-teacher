@@ -44,6 +44,15 @@ async function init() {
 
                 var storageRef = firebase.storage().refFromURL(url);
 
+                const title = url.split("/").pop()
+                const videoTitle = document.getElementsByClassName("video-title")[event.currentTarget.id].innerHTML
+                const creator = document.getElementsByClassName("video-creator")[event.currentTarget.id].innerHTML
+                const description = document.getElementsByClassName("video-desc")[event.currentTarget.id].innerHTML
+
+                var blob = new Blob([videoTitle + "\n" + creator + "\n" + description],
+                    { type: "text/plain;charset=utf-8" });
+                saveAs(blob, title + ".txt");
+
                 storageRef.getDownloadURL().then(function(url) {
                     let title = url.split("?")[0].split("/").pop()
                     var xhr = new XMLHttpRequest();
@@ -105,6 +114,16 @@ async function submit() {
                 const url = document.getElementsByClassName("video-storage")[event.currentTarget.id].innerHTML
 
                 var storageRef = firebase.storage().refFromURL(url);
+
+                let title = url.split("/").pop()
+                title =  title.split(".")[0]
+                const videoTitle = document.getElementsByClassName("video-title")[event.currentTarget.id].innerHTML
+                const creator = document.getElementsByClassName("video-creator")[event.currentTarget.id].innerHTML
+                const description = document.getElementsByClassName("video-desc")[event.currentTarget.id].innerHTML
+
+                var blob = new Blob([videoTitle + "\n" + creator + "\n" + description],
+                    { type: "text/plain;charset=utf-8" });
+                saveAs(blob, title + ".txt");
 
                 storageRef.getDownloadURL().then(function(url) {
                     let title = url.split("?")[0].split("/").pop()
