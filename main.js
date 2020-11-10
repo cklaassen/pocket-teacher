@@ -14,18 +14,30 @@ async function createWindow () {
     // win.maximize();
     // win.show();
 
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 400,
+        frame: false,
         webPreferences: {
-            nodeIntegration: true
+            frame:false,
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            webSecurity: false
+            // devTools: false
         },
-        icon:'assets/logo.png'
+        icon:'assets/logo.png',
+        x: 0,
+        y: 0
     })
-    win.loadFile('Load/index.html')
+    win.webContents.on('crashed', (e) => {
+        app.relaunch();
+        app.quit()
+    });
+    win.maximize()
+    win.loadFile('load/index.html')
     // win.webContents.openDevTools()
-    await sleep(1000)
-    win.loadFile('Home/home.html')
+    await sleep(3000)
+    win.loadFile('blank.html')
 }
 
 app.whenReady().then(createWindow)
@@ -42,10 +54,21 @@ app.on('activate', () => {
     }
 })
 
+let statusUpdate = ""
+
 ipcMain.on('online-status-changed', (event, status) => {
-    if (status === "online") {
-        console.log("Go U");
-    } else if (status === "offline") {
-        console.log("That is an oof");
+    try {
+        console.log(status)
+        console.log(statusUpdate)
+        if (status === "online" && statusUpdate !== "online") {
+            win.loadFile('home/home_online.html')
+            statusUpdate = "online"
+        } else if (status === "offline" && statusUpdate !== "offline") {
+            win.loadFile('home/home_offline.html')
+            statusUpdate = "offline"
+        }
+    } catch (e) {
+        win.loadFile('home/home_offline.html')
+        statusUpdate = "offline"
     }
 })

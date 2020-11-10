@@ -5,3 +5,5 @@ const updateOnlineStatus = () => {
 
 window.addEventListener('online', updateOnlineStatus)
 window.addEventListener('offline', updateOnlineStatus)
+
+updateOnlineStatus();

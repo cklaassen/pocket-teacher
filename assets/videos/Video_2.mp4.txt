@@ -1,0 +1,3 @@
+Is HTML a Programming Language
+A CS God
+It is a very common debate among programmers that tend to only hold one side to it.  This video explains the hard facts as to why html is NOT a programming language.

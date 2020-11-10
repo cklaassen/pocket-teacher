@@ -11,6 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^10.1.5"
+    "electron": "^10.1.5",
+    "firebase-admin": "^9.3.0"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.2",
+    "firebase": "^7.24.0"
   }
 }
